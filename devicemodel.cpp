@@ -60,8 +60,7 @@ QVariant DeviceModel::headerData(int section, Qt::Orientation orientation, int r
 void DeviceModel::initDeviceData()
 {
     beginResetModel();
-    // ✅✅✅ 刷新按钮逻辑优化：保留当前所有设备的修改状态，只刷新列表显示，不重置
-    // 如果列表为空，才初始化默认设备
+
     if(m_allDeviceList.isEmpty())
     {
         DeviceInfo dev1{u8"客厅主灯", u8"灯光", u8"灯光设备", u8"关闭", u8"客厅主照明"};
@@ -89,7 +88,7 @@ void DeviceModel::initDeviceData()
 
 void DeviceModel::updateDeviceState(const QString &devName, const QString &newState)
 {
-    // ✅✅✅ 第一步：更新原始设备列表的状态
+
     for(int i=0; i<m_allDeviceList.size(); i++)
     {
         if(m_allDeviceList[i].devName == devName)
@@ -99,13 +98,13 @@ void DeviceModel::updateDeviceState(const QString &devName, const QString &newSt
         }
     }
 
-    // ✅✅✅ 第二步：更新过滤后的设备列表的状态（核心修复！之前缺失这步）
+
     for(int i=0; i<m_filterDeviceList.size(); i++)
     {
         if(m_filterDeviceList[i].devName == devName)
         {
             m_filterDeviceList[i].devState = newState;
-            // 发送数据变化信号，告诉表格刷新当前行的状态列，界面实时更新
+
             QModelIndex index = createIndex(i, Col_State);
             emit dataChanged(index, index);
             break;

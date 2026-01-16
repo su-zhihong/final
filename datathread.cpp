@@ -29,7 +29,7 @@ void DataThread::stopWork()
     if(isRunning())
     {
         quit();
-        wait(3000); // 等待3秒，超时强制退出
+        wait(3000);
     }
 }
 
@@ -46,8 +46,7 @@ void DataThread::run()
             if(!m_isRunning) break;
         }
 
-        // ✅✅✅ Qt6终极完美解决方案 无任何歧义 100%编译通过
-        // 原理：先生成 [0,1)的标准浮点随机数，再手动映射到指定区间，完美规避所有重载问题
+
         float tempOffset = (QRandomGenerator::global()->generateDouble() - 0.5) * 3.0; // -1.5 ~ +1.5
         float humiOffset = (QRandomGenerator::global()->generateDouble() - 0.5) * 6.0; // -3.0 ~ +3.0
 
@@ -59,10 +58,9 @@ void DataThread::run()
         QString currTime = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
         emit sigSensorDataUpdate(temp, humi, currTime);
 
-        // 模拟发送TCP心跳包，状态更新
         emit sigHeartbeatStateUpdate(u8"心跳包发送成功", currTime);
 
-        // 休眠采集间隔
+
         msleep(m_collectInterval);
     }
 

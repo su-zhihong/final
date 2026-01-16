@@ -101,7 +101,7 @@ private:
     QValueAxis* m_axisY;
     int m_chartXIndex;
 
-    // ========== 核心对象 ==========
+
     QTcpSocket* m_tcpSocket;       // TCP通信（与网关）
     DataThread* m_dataThread;      // 后台数据线程
     DataBaseHelper* m_dbHelper;    // 数据库工具类

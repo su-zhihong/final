@@ -4,7 +4,7 @@ DataBaseHelper* DataBaseHelper::m_instance = nullptr;
 
 DataBaseHelper::DataBaseHelper()
 {
-    // 初始化数据库，使用SQLite，数据库文件在程序运行目录下：SmartHomeDB.db
+
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("SmartHomeDB.db");
 }
